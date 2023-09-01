@@ -41,19 +41,20 @@ export class UserCommand extends Command {
 			.addFields(
 				{
 					name: 'You can create a ticket for:',
-					value: `
-					- Reporting members for breaking rules
-					- Reporting staff members
-					- Appealing a punishment
-					- Other server related support`
+					value: [
+						`- Reporting members for breaking rules`,
+						`- Reporting staff members`,
+						`- Appealing a punishment`,
+						`- Other server related support`
+					].join('\n')
 				},
 				{
 					name: 'Before creating a ticket...',
-					value: `
-					- Make sure you have read <#708949525670133800> if you're confused on why you can't do a certain thing like posting images/sticker etc...
-					- Read <#915716486822248539> if you're gonna apply for staff.
-					- Ask yourself if creating a ticket is actually necessary for that situation.
-					`
+					value: [
+						`- Make sure you have read <#708949525670133800> if you're confused on why you can't do a certain thing like posting images/sticker etc...`,
+						`- Read <#915716486822248539> if you're gonna apply for staff.`,
+						`- Ask yourself if creating a ticket is actually necessary for that situation.`
+					].join('\n')
 				},
 				{
 					name: 'Guidelines',

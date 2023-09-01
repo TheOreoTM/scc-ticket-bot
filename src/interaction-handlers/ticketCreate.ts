@@ -73,6 +73,8 @@ export class ButtonHandler extends InteractionHandler {
 			.then(async (interaction) => {
 				ticketType = interaction.values[0] as TicketType;
 
+				console.log(ticketType);
+
 				let ticketTag: 'UR' | 'SR' | 'AP' | 'RR' | 'OT';
 
 				switch (ticketType) {
