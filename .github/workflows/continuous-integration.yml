@@ -30,10 +30,10 @@ jobs:
           host: ${{ secrets.HOST_IP }}
           username: ${{ secrets.HOST_USERNAME }}
           script: |
-            pm2 delete nexus-bot
-            cd /root/nexus-bot
+            pm2 delete scc-ticket-bot
+            cd /root/scc-ticket-bot
             git pull
             yarn install
             yarn build
             npx prisma generate
-            pm2 start yarn --interpreter bash --name nexus-bot -- start
+            pm2 start yarn --interpreter bash --name scc-ticket-bot -- start
