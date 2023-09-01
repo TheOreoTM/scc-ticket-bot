@@ -1,0 +1,39 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: ['main']
+  pull_request:
+    branches: ['main']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+      - run: yarn install
+      - run: yarn build
+      - name: SSH Remote Commands
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          key: ${{ secrets.HOST_SSH_KEY }}
+          host: ${{ secrets.HOST_IP }}
+          username: ${{ secrets.HOST_USERNAME }}
+          script: |
+            pm2 delete nexus-bot
+            cd /root/nexus-bot
+            git pull
+            yarn install
+            yarn build
+            npx prisma generate
+            pm2 start yarn --interpreter bash --name nexus-bot -- start
