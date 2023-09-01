@@ -11,7 +11,8 @@ import {
 	EmbedBuilder,
 	ButtonBuilder,
 	ButtonStyle,
-	StringSelectMenuInteraction
+	StringSelectMenuInteraction,
+	channelMention
 } from 'discord.js';
 
 @ApplyOptions<InteractionHandler.Options>({
@@ -148,6 +149,10 @@ export class ButtonHandler extends InteractionHandler {
 				const row1 = new ActionRowBuilder<ButtonBuilder>().addComponents(ticketCloseButton);
 				const row2 = new ActionRowBuilder<ButtonBuilder>().addComponents(ticketBlockButton);
 
+				interaction.reply({
+					ephemeral: true,
+					content: `Your ticket has been created, ${channelMention(ticketChannel.id)}`
+				});
 				return await ticketChannel.send({ embeds: [greetEmbed], content: `${interaction.user} Welcome,`, components: [row1, row2] });
 			})
 			.catch(() => {
