@@ -56,6 +56,7 @@ export class ButtonHandler extends InteractionHandler {
 		const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(ticketTypeSelectMenu);
 
 		const response = await interaction.reply({
+			fetchReply: true,
 			ephemeral: true,
 			content: `## Choose the type of ticket you want to create`,
 			components: [row]
@@ -68,98 +69,100 @@ export class ButtonHandler extends InteractionHandler {
 			return i.user.id === interaction.user.id;
 		};
 
-		await response
-			.awaitMessageComponent({ filter: collectorFilter, componentType: ComponentType.StringSelect, time: 60_000 })
-			.then(async (interaction) => {
-				ticketType = interaction.values[0] as TicketType;
+		const collector = response.createMessageComponentCollector({
+			filter: collectorFilter,
+			componentType: ComponentType.StringSelect,
+			time: 60_000,
+			max: 1
+		});
 
-				console.log(ticketType);
+		collector.on('collect', async (interaction: StringSelectMenuInteraction) => {
+			ticketType = interaction.values[0] as TicketType;
 
-				let ticketTag: 'UR' | 'SR' | 'AP' | 'RR' | 'OT';
+			console.log(ticketType);
 
-				switch (ticketType) {
-					case TicketType.UserReport:
-						ticketTag = 'UR';
-						break;
-					case TicketType.StaffReport:
-						ticketTag = 'SR';
-						break;
-					case TicketType.Appeal:
-						ticketTag = 'AP';
-						break;
-					case TicketType.RoleRequest:
-						ticketTag = 'RR';
-						break;
-					case TicketType.Other:
-						ticketTag = 'OT';
-						break;
-					default:
-						ticketTag = 'OT';
-						break;
+			let ticketTag: 'UR' | 'SR' | 'AP' | 'RR' | 'OT';
+
+			switch (ticketType) {
+				case TicketType.UserReport:
+					ticketTag = 'UR';
+					break;
+				case TicketType.StaffReport:
+					ticketTag = 'SR';
+					break;
+				case TicketType.Appeal:
+					ticketTag = 'AP';
+					break;
+				case TicketType.RoleRequest:
+					ticketTag = 'RR';
+					break;
+				case TicketType.Other:
+					ticketTag = 'OT';
+					break;
+				default:
+					ticketTag = 'OT';
+					break;
+			}
+
+			const ticket = await this.container.db.ticket.create({
+				data: {
+					ownerId: interaction.user.id,
+					type: ticketType,
+					state: TicketState.Open
 				}
-
-				const ticket = await this.container.db.ticket.create({
-					data: {
-						ownerId: interaction.user.id,
-						type: ticketType,
-						state: TicketState.Open
-					}
-				});
-
-				const channelName = `ticket-${ticketTag}x${ticket.id.toString().padStart(4, '0')}`;
-
-				const category = (await guild.channels.fetch(TicketConfig.TicketCategory, { cache: true })) as CategoryChannel;
-				const ticketChannel = await guild.channels.create({
-					name: channelName,
-					parent: category,
-					reason: `Ticket created by ${interaction.user.username}`,
-					type: ChannelType.GuildText,
-					permissionOverwrites: [
-						{
-							id: guild.id,
-							deny: ['ViewChannel']
-						},
-						{
-							id: TicketConfig.HandlerRole,
-							allow: ['SendMessages', 'ViewChannel', 'ManageMessages', 'AttachFiles', 'ReadMessageHistory']
-						},
-						{
-							id: interaction.user.id,
-							allow: ['SendMessages', 'ViewChannel', 'AttachFiles', 'ReadMessageHistory']
-						}
-					]
-				});
-
-				const ticketCloseButton = new ButtonBuilder()
-					.setStyle(ButtonStyle.Secondary)
-					.setLabel('Close')
-					.setEmoji('🔒')
-					.setCustomId(`ticketClose-${ticket.id}`);
-
-				const ticketBlockButton = new ButtonBuilder()
-					.setStyle(ButtonStyle.Secondary)
-					.setLabel('Block user')
-					.setEmoji('🛑')
-					.setCustomId(`ticketBlock-${ticket.id}`);
-
-				const greetEmbed = new EmbedBuilder()
-					.setColor(NexusColors.Default)
-					.setDescription(
-						'Support will be with you shortly. **Please state what you need help with even if a staff member isnt here**.\n To close the ticket click the button with 🔒.'
-					);
-
-				const row1 = new ActionRowBuilder<ButtonBuilder>().addComponents(ticketCloseButton);
-				const row2 = new ActionRowBuilder<ButtonBuilder>().addComponents(ticketBlockButton);
-
-				interaction.reply({
-					ephemeral: true,
-					content: `Your ticket has been created, ${channelMention(ticketChannel.id)}`
-				});
-				return await ticketChannel.send({ embeds: [greetEmbed], content: `${interaction.user} Welcome,`, components: [row1, row2] });
-			})
-			.catch(() => {
-				return null;
 			});
+
+			const channelName = `ticket-${ticketTag}x${ticket.id.toString().padStart(4, '0')}`;
+
+			const category = (await guild.channels.fetch(TicketConfig.TicketCategory, { cache: true })) as CategoryChannel;
+			const ticketChannel = await guild.channels.create({
+				name: channelName,
+				parent: category,
+				reason: `Ticket created by ${interaction.user.username}`,
+				type: ChannelType.GuildText,
+				permissionOverwrites: [
+					{
+						id: guild.id,
+						deny: ['ViewChannel']
+					},
+					{
+						id: TicketConfig.HandlerRole,
+						allow: ['SendMessages', 'ViewChannel', 'ManageMessages', 'AttachFiles', 'ReadMessageHistory']
+					},
+					{
+						id: interaction.user.id,
+						allow: ['SendMessages', 'ViewChannel', 'AttachFiles', 'ReadMessageHistory']
+					}
+				]
+			});
+
+			const ticketCloseButton = new ButtonBuilder()
+				.setStyle(ButtonStyle.Secondary)
+				.setLabel('Close')
+				.setEmoji('🔒')
+				.setCustomId(`ticketClose-${ticket.id}`);
+
+			const ticketBlockButton = new ButtonBuilder()
+				.setStyle(ButtonStyle.Secondary)
+				.setLabel('Block user')
+				.setEmoji('🛑')
+				.setCustomId(`ticketBlock-${ticket.id}`);
+
+			const greetEmbed = new EmbedBuilder()
+				.setColor(NexusColors.Default)
+				.setDescription(
+					'Support will be with you shortly. **Please state what you need help with even if a staff member isnt here**.\n To close the ticket click the button with 🔒.'
+				);
+
+			const row1 = new ActionRowBuilder<ButtonBuilder>().addComponents(ticketCloseButton);
+			const row2 = new ActionRowBuilder<ButtonBuilder>().addComponents(ticketBlockButton);
+
+			interaction.reply({
+				ephemeral: true,
+				content: `Your ticket has been created, ${channelMention(ticketChannel.id)}`
+			});
+			await ticketChannel.send({ embeds: [greetEmbed], content: `${interaction.user} Welcome,`, components: [row1, row2] });
+		});
 	}
 
 	public override parse(interaction: ButtonInteraction) {
