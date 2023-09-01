@@ -54,11 +54,12 @@ export class ButtonHandler extends InteractionHandler {
 		const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(ticketTypeSelectMenu);
 
 		const response = await interaction.reply({
-			fetchReply: true,
 			ephemeral: true,
 			content: `## Choose the type of ticket you want to create`,
 			components: [row]
 		});
+
+		console.log(response);
 
 		let ticketType: TicketType;
 		await response
