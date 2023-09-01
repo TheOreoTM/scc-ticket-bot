@@ -132,6 +132,10 @@ export class ButtonHandler extends InteractionHandler {
 					{
 						id: interaction.user.id,
 						allow: ['SendMessages', 'ViewChannel', 'AttachFiles', 'ReadMessageHistory']
+					},
+					{
+						id: '752169763232284692',
+						allow: ['SendMessages', 'ViewChannel', 'EmbedLinks', 'ManageChannels', 'ManageMessages', 'ReadMessageHistory', 'AttachFiles']
 					}
 				]
 			});
