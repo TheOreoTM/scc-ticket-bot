@@ -10,7 +10,8 @@ import {
 	ChannelType,
 	EmbedBuilder,
 	ButtonBuilder,
-	ButtonStyle
+	ButtonStyle,
+	StringSelectMenuInteraction
 } from 'discord.js';
 
 @ApplyOptions<InteractionHandler.Options>({
@@ -59,11 +60,15 @@ export class ButtonHandler extends InteractionHandler {
 			components: [row]
 		});
 
-		console.log(response);
-
 		let ticketType: TicketType;
+
+		const collectorFilter = (i: StringSelectMenuInteraction) => {
+			i.deferUpdate();
+			return i.user.id === interaction.user.id;
+		};
+
 		await response
-			.awaitMessageComponent({ componentType: ComponentType.StringSelect, time: 60_000 })
+			.awaitMessageComponent({ filter: collectorFilter, componentType: ComponentType.StringSelect, time: 60_000 })
 			.then(async (interaction) => {
 				ticketType = interaction.values[0] as TicketType;
 
