@@ -21,6 +21,7 @@ export class ButtonHandler extends InteractionHandler {
 		const channel = interaction.channel! as TextChannel;
 
 		const ticketId = parseInt(interaction.customId.split('-')[1]);
+		console.log('🚀 ~ file: ticketClose.ts:24 ~ ButtonHandler ~ run ~ ticketId:', ticketId);
 
 		const ticketData = await this.container.db.ticket.findUnique({
 			where: {
@@ -36,19 +37,22 @@ export class ButtonHandler extends InteractionHandler {
 				  });
 		}
 
-		const closeButton = new ButtonBuilder().setCustomId(`ticketConfirmClose-${ticketId}`).setLabel('Close').setStyle(ButtonStyle.Secondary);
-		const cancelButton = new ButtonBuilder().setCustomId(`ticketCancelClose-${ticketId}`).setLabel('Cancel').setStyle(ButtonStyle.Danger);
+		const closeButton = new ButtonBuilder().setCustomId(`ticketConfirmClose`).setLabel('Close').setStyle(ButtonStyle.Secondary);
+		const cancelButton = new ButtonBuilder().setCustomId(`ticketCancelClose`).setLabel('Cancel').setStyle(ButtonStyle.Danger);
 
 		const row = new ActionRowBuilder<ButtonBuilder>().addComponents(closeButton, cancelButton);
 
 		const response = await interaction.reply({
 			ephemeral: true,
 			content: 'Are you sure you would like to close this ticket?',
-			components: [row]
+			components: [row],
+			fetchReply: true
 		});
 
-		await response.awaitMessageComponent({ time: 60_000, componentType: ComponentType.Button }).then(async (interaction) => {
-			if (interaction.customId === `ticketConfirmClose-${ticketId}`) {
+		const collector = response.createMessageComponentCollector({ max: 1, time: 60_000, componentType: ComponentType.Button });
+
+		collector.on('collect', async (interaction: ButtonInteraction) => {
+			if (interaction.customId === `ticketConfirmClose`) {
 				channel.send({
 					embeds: [
 						new EmbedBuilder()
@@ -98,17 +102,15 @@ export class ButtonHandler extends InteractionHandler {
 
 				if (channel.deletable) {
 					await setTicketState(ticketData.id, TicketState.Closed);
-					return await channel.delete();
+					await channel.delete();
+				} else {
+					channel.send({ content: `${NexusEmojis.Fail} I can't delete this channel.` });
 				}
-
-				return channel.send({ content: `${NexusEmojis.Fail} I can't delete this channel.` });
 			}
 
 			if (interaction.customId === `ticketCancelClose-${ticketId}`) {
-				return response.delete();
+				response.delete();
 			}
-
-			return;
 		});
 
 		return;

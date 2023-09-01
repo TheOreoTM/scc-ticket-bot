@@ -155,7 +155,7 @@ export class ButtonHandler extends InteractionHandler {
 			const greetEmbed = new EmbedBuilder()
 				.setColor(NexusColors.Default)
 				.setDescription(
-					'Support will be with you shortly. **Please state what you need help with even if a staff member isnt here**.\n To close the ticket click the button with 🔒.'
+					'Support will be with you shortly. \n**Please state what you need help with even if a staff member isnt here**.\n To close the ticket click the button with 🔒.'
 				);
 
 			const row1 = new ActionRowBuilder<ButtonBuilder>().addComponents(ticketCloseButton);
