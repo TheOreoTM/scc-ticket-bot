@@ -112,7 +112,7 @@ export class ButtonHandler extends InteractionHandler {
 				}
 			});
 
-			const channelName = `ticket-${ticketTag}x${ticket.id.toString().padStart(4, '0')}`;
+			const channelName = `ticket-${ticketTag}+${ticket.id.toString().padStart(4, '0')}`;
 
 			const category = (await guild.channels.fetch(TicketConfig.TicketCategory, { cache: true })) as CategoryChannel;
 			const ticketChannel = await guild.channels.create({
@@ -157,7 +157,7 @@ export class ButtonHandler extends InteractionHandler {
 			const row1 = new ActionRowBuilder<ButtonBuilder>().addComponents(ticketCloseButton);
 			const row2 = new ActionRowBuilder<ButtonBuilder>().addComponents(ticketBlockButton);
 
-			interaction.reply({
+			interaction.followUp({
 				ephemeral: true,
 				content: `Your ticket has been created, ${channelMention(ticketChannel.id)}`
 			});
