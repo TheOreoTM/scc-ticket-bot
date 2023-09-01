@@ -53,11 +53,11 @@ export class ButtonHandler extends InteractionHandler {
 
 		collector.on('collect', async (interaction: ButtonInteraction) => {
 			if (interaction.customId === `ticketConfirmClose`) {
-				channel.send({
+				interaction.reply({
 					embeds: [
 						new EmbedBuilder()
 							.setColor(NexusColors.Warn)
-							.setDescription(`Ticket closed by ${interaction.user}. And ticket will be deleted in \`5 seconds\``)
+							.setDescription(`Ticket closed by ${interaction.user}, ticket will be deleted in \`5 seconds\``)
 					]
 				});
 
@@ -71,6 +71,7 @@ export class ButtonHandler extends InteractionHandler {
 				// 	.setCustomId(`ticketClose-${ticketData.id}`);
 
 				const transcript = await generateTranscript(channel);
+				console.log(transcript);
 				const transcriptChannel = interaction.guild?.channels.cache.get(TicketConfig.TranscriptChannel) as TextChannel;
 				const ticketOwner = this.container.client.users.cache.get(ticketData.ownerId);
 				const transcriptEmbed = new EmbedBuilder()
@@ -108,7 +109,7 @@ export class ButtonHandler extends InteractionHandler {
 				}
 			}
 
-			if (interaction.customId === `ticketCancelClose-${ticketId}`) {
+			if (interaction.customId === `ticketCancelClose`) {
 				response.delete();
 			}
 		});
