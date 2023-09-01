@@ -42,16 +42,16 @@ export class UserCommand extends Command {
 				{
 					name: 'You can create a ticket for:',
 					value: `
-					- Reporting members for breaking rules\n
-					- Reporting staff members\n
-					- Appealing a punishment\n
-					-Other server related support`
+					- Reporting members for breaking rules
+					- Reporting staff members
+					- Appealing a punishment
+					- Other server related support`
 				},
 				{
 					name: 'Before creating a ticket...',
 					value: `
-					- Make sure you have read <#708949525670133800> if you're confused on why you can't do a certain thing like posting images/sticker etc...\n
-					- Read <#915716486822248539> if you're gonna apply for staff.\n
+					- Make sure you have read <#708949525670133800> if you're confused on why you can't do a certain thing like posting images/sticker etc...
+					- Read <#915716486822248539> if you're gonna apply for staff.
 					- Ask yourself if creating a ticket is actually necessary for that situation.
 					`
 				},
@@ -65,7 +65,7 @@ export class UserCommand extends Command {
 					name: 'IMPORTANT: Dont ask to ask',
 					value: `
 					When you create a ticket dont just say "hey" or "i need help" and then wait till a staff member replies. This only prolongs the time that it takes for you to receive an answer. Instead open a ticket and type in what you need help with.
-					Refer to <https://dontasktoask.com/> and <https://nohello.net/>.`
+					Refer to [dont ask to ask](<https://dontasktoask.com/>) and [no hello](<https://nohello.net/>).`
 				}
 			);
 
