@@ -12,8 +12,16 @@ import {
 	ActivityType
 } from 'discord.js';
 import { BotOwners } from './constants';
+import { ServerOptions } from '@sapphire/plugin-api';
 
 export const config: Config = {
+	api: {
+		origin: '*',
+		prefix: 'v1',
+		listenOptions: {
+			port: 4040
+		}
+	},
 	intents: [
 		GatewayIntentBits.Guilds,
 		GatewayIntentBits.GuildMessages,
@@ -83,6 +91,7 @@ export const config: Config = {
 };
 
 export const ClientConfig: ClientOptions = {
+	api: config.api,
 	intents: config.intents,
 	partials: config.partials,
 	allowedMentions: config.mentions,
@@ -106,4 +115,5 @@ interface Config {
 	logger: ClientLoggerOptions;
 	sweepers: SweeperOptions;
 	presence: PresenceData;
+	api: ServerOptions;
 }

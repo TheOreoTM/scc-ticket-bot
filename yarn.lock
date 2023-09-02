@@ -239,6 +239,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sapphire/plugin-api@npm:^5.1.1":
+  version: 5.1.1
+  resolution: "@sapphire/plugin-api@npm:5.1.1"
+  dependencies:
+    "@types/ws": ^8.5.5
+    tldts: ^6.0.14
+    tslib: ^2.6.2
+    undici: ^5.23.0
+  checksum: 11940e21587243ea89023165ccbda6aac1fde5b774fccb1ad143185ed661fb3a36d05a3f83a5b91c4fc24b223eec2d3d78577d1e09c1fde91d0ef355eca9af03
+  languageName: node
+  linkType: hard
+
 "@sapphire/plugin-logger@npm:^3.0.5":
   version: 3.0.6
   resolution: "@sapphire/plugin-logger@npm:3.0.6"
@@ -455,6 +467,13 @@ __metadata:
   version: 0.37.50
   resolution: "discord-api-types@npm:0.37.50"
   checksum: 08dc5145dbefda5f52b479cd42d96ac2b8110300861855e1f92cc8a0a6525a4059e32724cd5237490c286f5afd86797a86823238cd5eee016198560bb36f6d43
+  languageName: node
+  linkType: hard
+
+"discord-api-types@npm:0.37.x":
+  version: 0.37.56
+  resolution: "discord-api-types@npm:0.37.56"
+  checksum: 797be690af70a846422f955d918a5713a2c8c37bea646e2120996522afbb47fc5893122c1ddcb8f57a285ace6e1fb0237d1e63105444ae52534f0570a2f87f34
   languageName: node
   linkType: hard
 
@@ -772,6 +791,7 @@ __metadata:
     "@sapphire/decorators": ^6.0.2
     "@sapphire/discord.js-utilities": 7.0.1
     "@sapphire/framework": ^4.5.1
+    "@sapphire/plugin-api": ^5.1.1
     "@sapphire/plugin-logger": ^3.0.5
     "@sapphire/prettier-config": ^2.0.0
     "@sapphire/ts-config": ^5.0.0
@@ -780,6 +800,7 @@ __metadata:
     "@types/node": ^18.17.0
     "@types/ws": ^8.5.5
     colorette: ^2.0.20
+    discord-api-types: 0.37.x
     discord-html-transcripts: ^3.1.5
     discord.js: ^14.11.0
     prettier: ^3.0.0
@@ -1018,6 +1039,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tldts-core@npm:^6.0.14":
+  version: 6.0.14
+  resolution: "tldts-core@npm:6.0.14"
+  checksum: c1946b259ad60d5e158293c52840d5eeaeef8c9804ec2044f1880698c6f962b03eb525e33d297003fc9beb25b8e30c74af654f239c5be6882b374057d949d9c0
+  languageName: node
+  linkType: hard
+
+"tldts@npm:^6.0.14":
+  version: 6.0.14
+  resolution: "tldts@npm:6.0.14"
+  dependencies:
+    tldts-core: ^6.0.14
+  bin:
+    tldts: bin/cli.js
+  checksum: d59264aacbe9d73c5012681bffcd0e430a2a2d79ac438652ef755cb513e5f2af8800f4012486815ee8638139974ec379a1fdc09a72ee15403fe0dda97fc72d42
+  languageName: node
+  linkType: hard
+
 "ts-mixer@npm:^6.0.3":
   version: 6.0.3
   resolution: "ts-mixer@npm:6.0.3"
@@ -1096,7 +1135,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici@npm:^5.21.0":
+"undici@npm:^5.21.0, undici@npm:^5.23.0":
   version: 5.23.0
   resolution: "undici@npm:5.23.0"
   dependencies:
