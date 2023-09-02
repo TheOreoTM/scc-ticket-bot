@@ -19,7 +19,8 @@ export const config: Config = {
 		origin: '*',
 		prefix: 'v1',
 		listenOptions: {
-			port: 4040
+			port: 4040,
+			host: '207.244.225.146'
 		}
 	},
 	intents: [
