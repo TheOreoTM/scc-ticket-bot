@@ -17,7 +17,7 @@ import { ServerOptions } from '@sapphire/plugin-api';
 export const config: Config = {
 	api: {
 		origin: '*',
-		prefix: 'v1',
+		prefix: '',
 		listenOptions: {
 			port: 4040,
 			host: 'localhost'
