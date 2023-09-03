@@ -6,9 +6,13 @@ import {
 	type MessageCommandSuccessPayload
 } from '@sapphire/framework';
 import { cyan } from 'colorette';
-import type { APIUser, Guild, TextChannel, User } from 'discord.js';
+import type { APIUser, Guild, GuildMember, TextChannel, User } from 'discord.js';
 import * as discordTranscripts from 'discord-html-transcripts';
-import type { TicketState } from '#constants';
+import { TicketConfig, type TicketState } from '#constants';
+
+export function isStaff(member: GuildMember) {
+	return member.roles.cache.has(TicketConfig.HandlerRole);
+}
 
 export async function setTicketState(ticketId: number, state: TicketState) {
 	container.db.ticket.update({

@@ -20,3 +20,9 @@ model Ticket {
 
   createdAt DateTime @default(now())
 }
+
+model Blacklist {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  createdAt DateTime @default(now())
+}

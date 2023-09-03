@@ -187,8 +187,8 @@ export class ButtonHandler extends InteractionHandler {
 					'Support will be with you shortly. \n**Please state what you need help with even if a staff member isnt here**.\n To close the ticket click the button with 🔒.'
 				);
 
-			const row1 = new ActionRowBuilder<ButtonBuilder>().addComponents(ticketCloseButton);
-			const row2 = new ActionRowBuilder<ButtonBuilder>().addComponents(ticketBlockButton);
+			const row1 = new ActionRowBuilder<ButtonBuilder>().addComponents(ticketBlockButton);
+			const row2 = new ActionRowBuilder<ButtonBuilder>().addComponents(ticketCloseButton);
 
 			interaction.followUp({
 				ephemeral: true,
