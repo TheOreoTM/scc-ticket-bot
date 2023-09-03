@@ -22,13 +22,11 @@ export class ButtonHandler extends InteractionHandler {
 	public async run(interaction: ButtonInteraction) {
 		const ticketAmount = await this.container.db.ticket.count({
 			where: {
-				ownerId: interaction.user.id,
-				state: TicketState.Open
+				ownerId: interaction.user.id
 			}
 		});
 
 		if (ticketAmount >= MaxTicketAmount) {
-			console.log('🚀 ~ file: ticketCreate.ts:31 ~ ButtonHandler ~ run ~ ticketAmount:', ticketAmount);
 			await interaction.reply({
 				ephemeral: true,
 				content: `${NexusEmojis.Fail} You already have the max number of tickets open (\`${MaxTicketAmount}\`)`
@@ -97,26 +95,26 @@ export class ButtonHandler extends InteractionHandler {
 
 			console.log(ticketType);
 
-			let ticketTag: '𝖴𝖱' | '𝖲𝖱' | '𝖠𝖯' | '𝖱𝖱' | '𝖮𝖳';
+			let ticketTag: 'UR' | 'SR' | 'AP' | 'RR' | 'OT';
 
 			switch (ticketType) {
 				case TicketType.UserReport:
-					ticketTag = '𝖴𝖱';
+					ticketTag = 'UR';
 					break;
 				case TicketType.StaffReport:
-					ticketTag = '𝖲𝖱';
+					ticketTag = 'SR';
 					break;
 				case TicketType.Appeal:
-					ticketTag = '𝖠𝖯';
+					ticketTag = 'AP';
 					break;
 				case TicketType.RoleRequest:
-					ticketTag = '𝖱𝖱';
+					ticketTag = 'RR';
 					break;
 				case TicketType.Other:
-					ticketTag = '𝖮𝖳';
+					ticketTag = 'OT';
 					break;
 				default:
-					ticketTag = '𝖮𝖳';
+					ticketTag = 'OT';
 					break;
 			}
 
@@ -128,7 +126,7 @@ export class ButtonHandler extends InteractionHandler {
 				}
 			});
 
-			const channelName = `ticket᲼${ticketTag}×${ticket.id.toString().padStart(4, '0')}`;
+			const channelName = `ticket-${ticketTag}${ticket.id.toString().padStart(4, '0')}`;
 
 			const category = (await guild.channels.fetch(TicketConfig.TicketCategory, { cache: true })) as CategoryChannel;
 			const ticketChannel = await guild.channels.create({
