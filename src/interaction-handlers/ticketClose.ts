@@ -51,7 +51,11 @@ export class ButtonHandler extends InteractionHandler {
 					]
 				});
 
-				await setTicketState(ticketData.id, TicketState.Closed);
+				await this.container.db.ticket.delete({
+					where: {
+						id: ticketData.id
+					}
+				});
 				channel.permissionOverwrites.edit(ticketData.ownerId, { ViewChannel: false });
 
 				// const ticketDeleteButton = new ButtonBuilder()
