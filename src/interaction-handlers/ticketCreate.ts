@@ -28,6 +28,7 @@ export class ButtonHandler extends InteractionHandler {
 		});
 
 		if (ticketAmount >= MaxTicketAmount) {
+			console.log('🚀 ~ file: ticketCreate.ts:31 ~ ButtonHandler ~ run ~ ticketAmount:', ticketAmount);
 			await interaction.reply({
 				ephemeral: true,
 				content: `${NexusEmojis.Fail} You already have the max number of tickets open (\`${MaxTicketAmount}\`)`
