@@ -12,7 +12,6 @@ export class ButtonHandler extends InteractionHandler {
 		const channel = interaction.channel! as TextChannel;
 
 		const ticketId = parseInt(interaction.customId.split('-')[1]);
-		console.log('🚀 ~ file: ticketClose.ts:24 ~ ButtonHandler ~ run ~ ticketId:', ticketId);
 
 		const ticketData = await this.container.db.ticket.findUnique({
 			where: {

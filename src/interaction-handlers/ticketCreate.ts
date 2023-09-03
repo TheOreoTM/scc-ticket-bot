@@ -22,7 +22,8 @@ export class ButtonHandler extends InteractionHandler {
 	public async run(interaction: ButtonInteraction) {
 		const ticketAmount = await this.container.db.ticket.count({
 			where: {
-				ownerId: interaction.user.id
+				ownerId: interaction.user.id,
+				state: TicketState.Open
 			}
 		});
 
