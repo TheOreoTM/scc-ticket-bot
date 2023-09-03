@@ -95,26 +95,26 @@ export class ButtonHandler extends InteractionHandler {
 
 			console.log(ticketType);
 
-			let ticketTag: 'UR' | 'SR' | 'AP' | 'RR' | 'OT';
+			let ticketTag: '𝖴𝖱' | '𝖲𝖱' | '𝖠𝖯' | '𝖱𝖱' | '𝖮𝖳';
 
 			switch (ticketType) {
 				case TicketType.UserReport:
-					ticketTag = 'UR';
+					ticketTag = '𝖴𝖱';
 					break;
 				case TicketType.StaffReport:
-					ticketTag = 'SR';
+					ticketTag = '𝖲𝖱';
 					break;
 				case TicketType.Appeal:
-					ticketTag = 'AP';
+					ticketTag = '𝖠𝖯';
 					break;
 				case TicketType.RoleRequest:
-					ticketTag = 'RR';
+					ticketTag = '𝖱𝖱';
 					break;
 				case TicketType.Other:
-					ticketTag = 'OT';
+					ticketTag = '𝖮𝖳';
 					break;
 				default:
-					ticketTag = 'OT';
+					ticketTag = '𝖮𝖳';
 					break;
 			}
 
@@ -126,7 +126,7 @@ export class ButtonHandler extends InteractionHandler {
 				}
 			});
 
-			const channelName = `ticket-${ticketTag}×${ticket.id.toString().padStart(4, '0')}`;
+			const channelName = `ticket᲼${ticketTag}×${ticket.id.toString().padStart(4, '0')}`;
 
 			const category = (await guild.channels.fetch(TicketConfig.TicketCategory, { cache: true })) as CategoryChannel;
 			const ticketChannel = await guild.channels.create({
