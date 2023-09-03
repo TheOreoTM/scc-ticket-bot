@@ -24,7 +24,7 @@ export class UserCommand extends Command {
 
 		// Register Context Menu command available from any user
 		registry.registerContextMenuCommand({
-			name: this.name,
+			name: 'Unblock',
 			type: ApplicationCommandType.User
 		});
 	}
