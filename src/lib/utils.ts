@@ -6,7 +6,7 @@ import {
 	type MessageCommandSuccessPayload
 } from '@sapphire/framework';
 import { cyan } from 'colorette';
-import type { APIUser, Guild, GuildMember, TextChannel, User } from 'discord.js';
+import type { APIUser, Guild, GuildMember, TextBasedChannel, User } from 'discord.js';
 import * as discordTranscripts from 'discord-html-transcripts';
 import { TicketConfig, type TicketState } from '#constants';
 
@@ -25,7 +25,7 @@ export async function setTicketState(ticketId: number, state: TicketState) {
 	});
 }
 
-export async function generateTranscript(channel: TextChannel) {
+export async function generateTranscript(channel: TextBasedChannel) {
 	const transcript = await discordTranscripts.createTranscript(channel, {
 		filename: 'transcript.html',
 		footerText: `Exported {number} message{s}`,
