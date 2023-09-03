@@ -93,8 +93,6 @@ export class ButtonHandler extends InteractionHandler {
 		collector.on('collect', async (interaction: StringSelectMenuInteraction) => {
 			ticketType = interaction.values[0] as TicketType;
 
-			console.log(ticketType);
-
 			let ticketTag: 'UR' | 'SR' | 'AP' | 'RR' | 'OT';
 
 			switch (ticketType) {
@@ -129,30 +127,47 @@ export class ButtonHandler extends InteractionHandler {
 			const channelName = `ticket-${ticketTag}${ticket.id.toString().padStart(4, '0')}`;
 
 			const category = (await guild.channels.fetch(TicketConfig.TicketCategory, { cache: true })) as CategoryChannel;
-			const ticketChannel = await guild.channels.create({
-				name: channelName,
-				parent: category,
-				reason: `Ticket created by ${interaction.user.username}`,
-				type: ChannelType.GuildText,
-				permissionOverwrites: [
-					{
-						id: guild.id,
-						deny: ['ViewChannel']
-					},
-					{
-						id: TicketConfig.HandlerRole,
-						allow: ['SendMessages', 'ViewChannel', 'ManageMessages', 'AttachFiles', 'ReadMessageHistory']
-					},
-					{
-						id: interaction.user.id,
-						allow: ['SendMessages', 'ViewChannel', 'AttachFiles', 'ReadMessageHistory']
-					},
-					{
-						id: '752169763232284692',
-						allow: ['SendMessages', 'ViewChannel', 'EmbedLinks', 'ManageChannels', 'ManageMessages', 'ReadMessageHistory', 'AttachFiles']
-					}
-				]
-			});
+			const ticketChannel = await guild.channels
+				.create({
+					name: channelName,
+					parent: category,
+					reason: `Ticket created by ${interaction.user.username}`,
+					type: ChannelType.GuildText,
+					permissionOverwrites: [
+						{
+							id: guild.id,
+							deny: ['ViewChannel']
+						},
+						{
+							id: TicketConfig.HandlerRole,
+							allow: ['SendMessages', 'ViewChannel', 'ManageMessages', 'AttachFiles', 'ReadMessageHistory']
+						},
+						{
+							id: interaction.user.id,
+							allow: ['SendMessages', 'ViewChannel', 'AttachFiles', 'ReadMessageHistory']
+						},
+						{
+							id: '752169763232284692',
+							allow: [
+								'SendMessages',
+								'ViewChannel',
+								'EmbedLinks',
+								'ManageChannels',
+								'ManageMessages',
+								'ReadMessageHistory',
+								'AttachFiles'
+							]
+						}
+					]
+				})
+				.catch(async () => {
+					await this.container.db.ticket.delete({
+						where: {
+							id: ticket.id
+						}
+					});
+					throw new Error('Failed to create channel');
+				});
 
 			const ticketCloseButton = new ButtonBuilder()
 				.setStyle(ButtonStyle.Secondary)
@@ -179,7 +194,13 @@ export class ButtonHandler extends InteractionHandler {
 				ephemeral: true,
 				content: `Your ticket has been created, ${channelMention(ticketChannel.id)}`
 			});
-			await ticketChannel.send({ embeds: [greetEmbed], content: `${interaction.user} Welcome,`, components: [row1, row2] });
+			await ticketChannel.send({ embeds: [greetEmbed], content: `${interaction.user} Welcome,`, components: [row1, row2] }).catch(async () => {
+				await this.container.db.ticket.delete({
+					where: {
+						id: ticket.id
+					}
+				});
+			});
 		});
 	}
 
