@@ -4,6 +4,7 @@ export const rootDir = join(__dirname, '..', '..');
 export const srcDir = join(rootDir, 'src');
 
 export const BotOwners = ['600707283097485322'];
+export const MaxTicketAmount = 1;
 
 export const NexusColors = {
 	Success: 0x46b485,

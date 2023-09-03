@@ -1,4 +1,4 @@
-import { NexusColors, TicketConfig, TicketState, TicketType } from '#constants';
+import { MaxTicketAmount, NexusColors, NexusEmojis, TicketConfig, TicketState, TicketType } from '#constants';
 import { ApplyOptions } from '@sapphire/decorators';
 import { InteractionHandler, InteractionHandlerTypes } from '@sapphire/framework';
 import {
@@ -20,6 +20,20 @@ import {
 })
 export class ButtonHandler extends InteractionHandler {
 	public async run(interaction: ButtonInteraction) {
+		const ticketAmount = await this.container.db.ticket.count({
+			where: {
+				ownerId: interaction.user.id
+			}
+		});
+
+		if (ticketAmount >= MaxTicketAmount) {
+			await interaction.reply({
+				ephemeral: true,
+				content: `${NexusEmojis.Fail} You already have the max number of tickets open (\`${MaxTicketAmount}\`)`
+			});
+			return;
+		}
+
 		const guild = interaction.guild!;
 		const ticketTypeSelectMenu = new StringSelectMenuBuilder()
 			.setCustomId('ticketTypeSelect')
@@ -112,7 +126,7 @@ export class ButtonHandler extends InteractionHandler {
 				}
 			});
 
-			const channelName = `ticket-${ticketTag}+${ticket.id.toString().padStart(4, '0')}`;
+			const channelName = `ticket-${ticketTag}×${ticket.id.toString().padStart(4, '0')}`;
 
 			const category = (await guild.channels.fetch(TicketConfig.TicketCategory, { cache: true })) as CategoryChannel;
 			const ticketChannel = await guild.channels.create({
