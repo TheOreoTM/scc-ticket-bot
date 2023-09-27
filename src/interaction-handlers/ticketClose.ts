@@ -1,5 +1,5 @@
-import { NexusColors, NexusEmojis, TicketConfig, TicketState } from '#constants';
-import { generateTranscript, setTicketState, wait } from '#lib/utils';
+import { NexusColors, NexusEmojis, TicketConfig } from '#constants';
+import { generateTranscript, wait } from '#lib/utils';
 import { ApplyOptions } from '@sapphire/decorators';
 import { InteractionHandler, InteractionHandlerTypes } from '@sapphire/framework';
 import {
