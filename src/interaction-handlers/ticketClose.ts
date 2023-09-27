@@ -113,13 +113,6 @@ export class ButtonHandler extends InteractionHandler {
 					embeds: [new EmbedBuilder().setDescription('This ticket has been closed').setColor(NexusColors.Default)],
 					components: [new ActionRowBuilder<ButtonBuilder>().addComponents(ticketDeleteButton)]
 				});
-
-				if (channel.deletable) {
-					await setTicketState(ticketData.id, TicketState.Closed);
-					await channel.delete();
-				} else {
-					channel.send({ content: `${NexusEmojis.Fail} I can't delete this channel.` });
-				}
 			}
 
 			if (interaction.customId === `ticketCancelClose`) {
