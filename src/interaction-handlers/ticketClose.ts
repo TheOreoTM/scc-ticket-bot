@@ -56,7 +56,7 @@ export class ButtonHandler extends InteractionHandler {
 					embeds: [
 						new EmbedBuilder()
 							.setColor(NexusColors.Warn)
-							.setDescription(`Ticket closed by ${interaction.user}, ticket will be deleted in \`5 seconds\``)
+							.setDescription(`Ticket closed by ${interaction.user}, ticket will be closed in \`5 seconds\``)
 					]
 				});
 
@@ -123,7 +123,7 @@ export class ButtonHandler extends InteractionHandler {
 			}
 
 			if (interaction.customId === `ticketCancelClose`) {
-				response.delete();
+				response.edit({ components: [] });
 			}
 		});
 
