@@ -74,7 +74,6 @@ export class ButtonHandler extends InteractionHandler {
 				// 	.setCustomId(`ticketClose-${ticketData.id}`);
 
 				const transcript = await generateTranscript(channel);
-				console.log(transcript);
 				const transcriptChannel = interaction.guild?.channels.cache.get(TicketConfig.TranscriptChannel) as TextChannel;
 				const ticketOwner = this.container.client.users.cache.get(ticketData.ownerId);
 				const transcriptEmbed = new EmbedBuilder()
@@ -103,6 +102,17 @@ export class ButtonHandler extends InteractionHandler {
 				});
 
 				await wait(5000);
+
+				const ticketDeleteButton = new ButtonBuilder()
+					.setCustomId('ticketDelete')
+					.setLabel('Delete')
+					.setEmoji('🗑️')
+					.setStyle(ButtonStyle.Danger);
+
+				channel.send({
+					embeds: [new EmbedBuilder().setDescription('This ticket has been closed').setColor(NexusColors.Default)],
+					components: [new ActionRowBuilder<ButtonBuilder>().addComponents(ticketDeleteButton)]
+				});
 
 				if (channel.deletable) {
 					await setTicketState(ticketData.id, TicketState.Closed);
