@@ -208,6 +208,9 @@ export class ButtonHandler extends InteractionHandler {
 					}
 				});
 			});
+			await ticketChannel.send({
+				content: followUpMessage
+			});
 		});
 	}
 
