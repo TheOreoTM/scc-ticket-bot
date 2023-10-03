@@ -94,19 +94,26 @@ export class ButtonHandler extends InteractionHandler {
 			ticketType = interaction.values[0] as TicketType;
 
 			let ticketTag: 'UR' | 'SR' | 'AP' | 'RR' | 'OT';
+			let followUpMessage = '';
 
 			switch (ticketType) {
 				case TicketType.UserReport:
 					ticketTag = 'UR';
+					followUpMessage = `You have submitted a user report ticket, please follow the instructions below.\n\n**UserID:** <the id of the user (the number)>\n**Reason:** <why you are reporting this user>`;
 					break;
 				case TicketType.StaffReport:
 					ticketTag = 'SR';
+					followUpMessage = `You have submitted a staff report ticket, please follow the instructions below.\n\n**Staff:** <the staff member>\n**Reason:** <why you are reporting this staff>`;
+
 					break;
 				case TicketType.Appeal:
 					ticketTag = 'AP';
+
 					break;
 				case TicketType.RoleRequest:
 					ticketTag = 'RR';
+					followUpMessage = `You have submitted a role request ticket, please follow the instructions below.\n\n**Role Name:** <the name of the role you want>\n**Reason:** <why you are reporting this user>`;
+
 					break;
 				case TicketType.Other:
 					ticketTag = 'OT';
