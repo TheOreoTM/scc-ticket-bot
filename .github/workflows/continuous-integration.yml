@@ -35,5 +35,5 @@ jobs:
             git pull
             yarn install
             yarn build
-            npx prisma generate
-            pm2 start yarn --interpreter bash --name scc-ticket-bot -- start
+            yarn prisma:push-prod
+            pm2 start dist/index.js --name scc-ticket-bot
