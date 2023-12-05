@@ -43,7 +43,11 @@ export class UserCommand extends Command {
 
 	private async sendSuccessMessage(interaction: Command.ChatInputCommandInteraction | Command.ContextMenuCommandInteraction) {
 		interaction.reply({
-			embeds: [new EmbedBuilder().setColor(NexusColors.Success).setDescription(`***${NexusEmojis.Success} Unblocked member successfully***`)]
+			embeds: [
+				new EmbedBuilder()
+					.setColor(NexusColors.Success)
+					.setDescription(`***${NexusEmojis.Success} Deleted all db record for member successfully***`)
+			]
 		});
 	}
 
