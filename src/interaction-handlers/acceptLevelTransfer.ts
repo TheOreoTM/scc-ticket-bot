@@ -32,7 +32,8 @@ export class ButtonHandler extends InteractionHandler {
 
 		const response = await fetch('http://207.244.225.146:4010/levels/set', {
 			headers: {
-				Authorization: `Bearer ${process.env.API_KEY}`
+				Authorization: `Bearer ${process.env.API_KEY}`,
+				'Content-Type': 'application/json'
 			},
 			method: 'POST',
 			body: JSON.stringify(body)
