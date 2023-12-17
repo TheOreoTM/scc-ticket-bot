@@ -28,7 +28,7 @@ export class ButtonHandler extends InteractionHandler {
 			user_id: transferData.userId
 		} satisfies LevelTransferBody;
 
-		const response = await fetch('http://207.244.225.146:4010/level/set', {
+		const response = await fetch('http://207.244.225.146:4010/levels/set', {
 			headers: {
 				Authorization: `Bearer ${process.env.API_KEY}`
 			},
