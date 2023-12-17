@@ -12,7 +12,10 @@ import {
 	ButtonBuilder,
 	ButtonStyle,
 	StringSelectMenuInteraction,
-	channelMention
+	channelMention,
+	ModalBuilder,
+	TextInputBuilder,
+	TextInputStyle
 } from 'discord.js';
 
 @ApplyOptions<InteractionHandler.Options>({
@@ -40,6 +43,11 @@ export class ButtonHandler extends InteractionHandler {
 			.setMaxValues(1)
 			.setPlaceholder('Choose your ticket type')
 			.addOptions(
+				{
+					label: 'Level Transfer',
+					value: TicketType.LevelTransfer,
+					description: 'This is for requesting to transfer your levels from your old account/bot'
+				},
 				{
 					label: 'User Report',
 					value: TicketType.UserReport,
@@ -93,10 +101,14 @@ export class ButtonHandler extends InteractionHandler {
 		collector.on('collect', async (interaction: StringSelectMenuInteraction) => {
 			ticketType = interaction.values[0] as TicketType;
 
-			let ticketTag: 'UR' | 'SR' | 'AP' | 'RR' | 'OT';
+			let ticketTag: 'UR' | 'SR' | 'AP' | 'RR' | 'OT' | 'LT';
 			let followUpMessage = '';
 
 			switch (ticketType) {
+				case TicketType.LevelTransfer:
+					ticketTag = 'LT';
+					followUpMessage = `You have submitted a level request ticket, please follow the instructions below.\n\n**Level:** <the level of your old/arcane account>`;
+					break;
 				case TicketType.UserReport:
 					ticketTag = 'UR';
 					followUpMessage = `You have submitted a user report ticket, please follow the instructions below.\n\n**UserID:** <the id of the user (the number)>\n**Reason:** <why you are reporting this user>`;
@@ -112,7 +124,7 @@ export class ButtonHandler extends InteractionHandler {
 					break;
 				case TicketType.RoleRequest:
 					ticketTag = 'RR';
-					followUpMessage = `You have submitted a role request ticket, please follow the instructions below.\n\n**Role Name:** <the name of the role you want>\n**Reason:** <why you are reporting this user>`;
+					followUpMessage = `You have submitted a role request ticket, please follow the instructions below.\n\n**Role Name:** <the name of the role you want>\n**Reason:** <why you are requesting this role>`;
 
 					break;
 				case TicketType.Other:
@@ -121,6 +133,25 @@ export class ButtonHandler extends InteractionHandler {
 				default:
 					ticketTag = 'OT';
 					break;
+			}
+
+			if (ticketType === TicketType.LevelTransfer) {
+				const oldLevelInput = new TextInputBuilder()
+					.setCustomId('oldlevel')
+					.setLabel('Old level')
+					.setRequired(true)
+					.setPlaceholder('The level on arcane./old account.')
+					.setMinLength(1)
+					.setMaxLength(3)
+					.setStyle(TextInputStyle.Short);
+
+				const modal = new ModalBuilder()
+					.setCustomId('leveltransfer')
+					.setTitle('Level Transfer')
+					.addComponents(new ActionRowBuilder<TextInputBuilder>().addComponents(oldLevelInput));
+
+				await interaction.showModal(modal);
+				return;
 			}
 
 			const ticket = await this.container.db.ticket.create({

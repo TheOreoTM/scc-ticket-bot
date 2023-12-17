@@ -34,7 +34,14 @@ export enum TicketState {
 	Closed = 'CLOSED'
 }
 
+export enum LevelTransferStatus {
+	Pending = 'PENDING',
+	Rejected = 'REJECTED',
+	Accepted = 'ACCEPTED'
+}
+
 export enum TicketType {
+	LevelTransfer = 'LEVEL_TRANSFER',
 	UserReport = 'USER_REPORT',
 	StaffReport = 'STAFF_REPORT',
 	RoleRequest = 'ROLE_REQUEST',
