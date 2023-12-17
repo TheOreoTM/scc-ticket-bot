@@ -7,7 +7,7 @@ import { EmbedBuilder, type ButtonInteraction, userMention } from 'discord.js';
 	interactionHandlerType: InteractionHandlerTypes.Button
 })
 export class ButtonHandler extends InteractionHandler {
-	public async run(interaction: ButtonInteraction) {
+	public async run(interaction: ButtonInteraction<'cached'>) {
 		const transferData = await this.container.db.levelTransfer.findUnique({
 			where: {
 				appealMessageId: interaction.message.id
@@ -24,9 +24,11 @@ export class ButtonHandler extends InteractionHandler {
 
 		const body = {
 			amount: transferData.level,
-			staff_id: interaction.user.id,
+			staff_id: interaction.member.id,
 			user_id: transferData.userId
 		} satisfies LevelTransferBody;
+
+		console.log(body);
 
 		const response = await fetch('http://207.244.225.146:4010/levels/set', {
 			headers: {
