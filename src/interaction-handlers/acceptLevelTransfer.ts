@@ -32,6 +32,7 @@ export class ButtonHandler extends InteractionHandler {
 			headers: {
 				Authorization: `Bearer ${process.env.API_KEY}`
 			},
+			method: 'POST',
 			body: JSON.stringify(body)
 		});
 		const data = await response.json();
