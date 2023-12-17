@@ -35,6 +35,7 @@ export class ButtonHandler extends InteractionHandler {
 			method: 'POST',
 			body: JSON.stringify(body)
 		});
+		console.log(response);
 		const data = await response.json();
 		console.log(data);
 
