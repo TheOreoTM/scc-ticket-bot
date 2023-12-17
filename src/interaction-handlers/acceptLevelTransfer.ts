@@ -36,6 +36,7 @@ export class ButtonHandler extends InteractionHandler {
 			body: JSON.stringify(body)
 		});
 		const data = await response.json();
+		console.log(data);
 
 		if (data.message !== 'success') {
 			interaction.reply({
