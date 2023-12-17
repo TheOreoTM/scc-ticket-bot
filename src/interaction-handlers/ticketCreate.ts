@@ -87,7 +87,6 @@ export class ButtonHandler extends InteractionHandler {
 		let ticketType: TicketType;
 
 		const collectorFilter = (i: StringSelectMenuInteraction) => {
-			i.deferUpdate();
 			return i.user.id === interaction.user.id;
 		};
 
@@ -153,6 +152,8 @@ export class ButtonHandler extends InteractionHandler {
 				await interaction.showModal(modal);
 				return;
 			}
+
+			interaction.deferUpdate();
 
 			const ticket = await this.container.db.ticket.create({
 				data: {
