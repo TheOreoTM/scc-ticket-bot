@@ -43,7 +43,7 @@ export class ButtonHandler extends InteractionHandler {
 
 		if (data.message !== 'success') {
 			interaction.reply({
-				content: `${NexusEmojis.Fail} Something went wrong\n\nSource: \`\`\`json\n${data}\`\`\``,
+				content: `${NexusEmojis.Fail} Something went wrong\n\nSource: \`\`\`json\n${JSON.stringify(data, null, 2)}\`\`\``,
 				ephemeral: true
 			});
 			return;
