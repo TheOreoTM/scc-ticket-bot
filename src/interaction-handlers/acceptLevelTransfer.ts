@@ -24,13 +24,12 @@ export class ButtonHandler extends InteractionHandler {
 
 		const body = {
 			amount: transferData.level,
-			staff_id: interaction.member.id,
-			user_id: transferData.userId
+			staff_id: interaction.member.id
 		} satisfies LevelTransferBody;
 
 		console.log(body);
 
-		const response = await fetch('http://207.244.225.146:4010/levels/set', {
+		const response = await fetch(`http://207.244.225.146:4010/levels/${transferData.userId}`, {
 			headers: {
 				Authorization: `Bearer ${process.env.API_KEY}`,
 				'Content-Type': 'application/json'
@@ -38,9 +37,7 @@ export class ButtonHandler extends InteractionHandler {
 			method: 'POST',
 			body: JSON.stringify(body)
 		});
-		console.log(response);
 		const data = await response.json();
-		console.log(data);
 
 		if (data.message !== 'success') {
 			interaction.reply({
@@ -85,6 +82,5 @@ export class ButtonHandler extends InteractionHandler {
 
 type LevelTransferBody = {
 	amount: number;
-	user_id: string;
 	staff_id: string;
 };
