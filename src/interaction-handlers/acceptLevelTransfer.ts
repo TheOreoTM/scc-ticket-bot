@@ -29,7 +29,7 @@ export class ButtonHandler extends InteractionHandler {
 
 		console.log(body);
 
-		const response = await fetch(`http://207.244.225.146:4010/levels/${transferData.userId}`, {
+		const response = await fetch(`https://skitty.oreotm.xyz/levels/${transferData.userId}`, {
 			headers: {
 				Authorization: `Bearer ${process.env.API_KEY}`,
 				'Content-Type': 'application/json'
