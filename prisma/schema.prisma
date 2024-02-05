@@ -30,6 +30,6 @@ model Ticket {
 
 model Blacklist {
   id        Int      @id @default(autoincrement())
-  userId    String
+  userId    String   @unique
   createdAt DateTime @default(now())
 }

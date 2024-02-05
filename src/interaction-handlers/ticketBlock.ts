@@ -32,8 +32,14 @@ export class ButtonHandler extends InteractionHandler {
 
 		const ticketOwnerId = ticketData.ownerId;
 
-		await this.container.db.blacklist.create({
-			data: {
+		await this.container.db.blacklist.upsert({
+			create: {
+				userId: ticketOwnerId
+			},
+			update: {
+				userId: ticketOwnerId
+			},
+			where: {
 				userId: ticketOwnerId
 			}
 		});

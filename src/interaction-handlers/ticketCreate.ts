@@ -29,6 +29,20 @@ export class ButtonHandler extends InteractionHandler {
 			}
 		});
 
+		const blacklisted = await this.container.db.blacklist.findFirst({
+			where: {
+				userId: interaction.user.id
+			}
+		});
+
+		if (blacklisted) {
+			await interaction.reply({
+				ephemeral: true,
+				content: `${NexusEmojis.Fail} You are blacklisted from creating tickets.`
+			});
+			return;
+		}
+
 		if (ticketAmount >= MaxTicketAmount) {
 			await interaction.reply({
 				ephemeral: true,
