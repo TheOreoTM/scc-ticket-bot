@@ -179,7 +179,7 @@ export class ButtonHandler extends InteractionHandler {
 
 			const channelName = `ticket-${ticketTag}${ticket.id.toString().padStart(4, '0')}`;
 
-			const category = (await guild.channels.fetch(TicketConfig.TicketCategory, { cache: true })) as CategoryChannel;
+			const category = (await guild.channels.fetch(TicketConfig.TicketCategory)) as CategoryChannel;
 			const ticketChannel = await guild.channels
 				.create({
 					name: channelName,

@@ -24,7 +24,7 @@ export const NexusEmojis = {
 };
 
 export const TicketConfig = {
-	HandlerRole: '1016966909121527809',
+	HandlerRole: '1272585220167569418',
 	TicketCategory: '910957316046729256',
 	TranscriptChannel: '912062908207353887'
 };
