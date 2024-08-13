@@ -213,13 +213,13 @@ export class ButtonHandler extends InteractionHandler {
 						}
 					]
 				})
-				.catch(async () => {
+				.catch(async (err) => {
 					await this.container.db.ticket.delete({
 						where: {
 							id: ticket.id
 						}
 					});
-					throw new Error('Failed to create channel');
+					throw new Error(`Failed to create channel ${err}`);
 				});
 
 			const ticketCloseButton = new ButtonBuilder()
