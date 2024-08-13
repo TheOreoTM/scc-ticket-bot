@@ -219,7 +219,8 @@ export class ButtonHandler extends InteractionHandler {
 							id: ticket.id
 						}
 					});
-					throw new Error(`Failed to create channel ${err}`);
+					console.log(err);
+					throw new Error(`Failed to create channel`);
 				});
 
 			const ticketCloseButton = new ButtonBuilder()
