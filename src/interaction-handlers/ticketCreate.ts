@@ -200,7 +200,7 @@ export class ButtonHandler extends InteractionHandler {
 							allow: ['SendMessages', 'ViewChannel', 'AttachFiles', 'ReadMessageHistory']
 						},
 						{
-							id: '752169763232284692',
+							id: '1272585230955577417', // Muted role
 							allow: [
 								'SendMessages',
 								'ViewChannel',
