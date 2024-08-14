@@ -200,19 +200,19 @@ export class ButtonHandler extends InteractionHandler {
 						{
 							id: interaction.user.id,
 							allow: ['SendMessages', 'ViewChannel', 'AttachFiles', 'ReadMessageHistory']
-						},
-						{
-							id: '1272585230955577417', // Muted role
-							allow: [
-								'SendMessages',
-								'ViewChannel',
-								'EmbedLinks',
-								'ManageChannels',
-								'ManageMessages',
-								'ReadMessageHistory',
-								'AttachFiles'
-							]
 						}
+						// {
+						// 	id: '1272585230955577417', // Muted role
+						// 	allow: [
+						// 		'SendMessages',
+						// 		'ViewChannel',
+						// 		'EmbedLinks',
+						// 		'ManageChannels',
+						// 		'ManageMessages',
+						// 		'ReadMessageHistory',
+						// 		'AttachFiles'
+						// 	]
+						// }
 					]
 				})
 				.catch(async (err) => {
